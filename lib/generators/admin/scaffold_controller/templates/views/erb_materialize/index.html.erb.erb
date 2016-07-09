@@ -1,0 +1,34 @@
+<h1>Listing <%= plural_table_name %></h1>
+
+<table>
+  <thead>
+    <tr>
+<% attributes.reject(&:password_digest?).each do |attribute| -%>
+      <th><%= attribute.human_name %></th>
+<% end -%>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <%% @<%= plural_table_name %>.each do |<%= singular_table_name %>| %>
+      <tr>
+<% attributes.reject(&:password_digest?).each do |attribute| -%>
+        <td><%%= <%= singular_table_name %>.<%= attribute.name %> %></td>
+<% end -%>
+        <td>
+            <a class='dropdown-button btn' href='#' data-activates='actions_drodown_<%%= <%= singular_table_name %>.id %>'>Actions</a>
+            <ul id='actions_drodown_<%%= <%= singular_table_name %>.id %>' class='dropdown-content'>
+                <%%= content_tag :li, (link_to 'Show', <%= "[:#{prefix}, #{singular_table_name}]" %>) %>
+                <%%= content_tag :li, (link_to 'Edit', edit_<%= prefixed_plain_model_url %>_path(<%= singular_table_name %>)) %>
+                <%%= content_tag :li, (link_to 'Destroy', <%= "[:#{prefix}, #{singular_table_name}]" %>, method: :delete, data: { confirm: 'Are you sure?' }) %>
+            </ul>
+        </td>
+      </tr>
+    <%% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%%= link_to '<i class="material-icons left">add</i> New <%= human_name %>'.html_safe, new_<%= prefixed_plain_model_url %>_path, class: 'btn' %>

@@ -1,0 +1,11 @@
+<h1>View <%= singular_table_name %></h1>
+
+<% attributes.reject(&:password_digest?).each do |attribute| -%>
+<p>
+  <strong><%= attribute.human_name %>:</strong>
+  <%%= @<%= singular_table_name %>.<%= attribute.name %> %>
+</p>
+
+<% end -%>
+<%%= link_to 'Edit', url_for(action: :edit, id: @<%= singular_table_name %>.id), class: 'btn' %> |
+<%%= link_to 'Back', url_for(action: :index), class: 'btn grey' %>

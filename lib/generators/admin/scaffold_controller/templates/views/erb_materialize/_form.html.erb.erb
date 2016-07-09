@@ -1,0 +1,47 @@
+<%%= form_for(<%= "[:#{prefix}, @#{singular_table_name}]" %>) do |f| %>
+    <%% if @<%= singular_table_name %>.errors.any? %>
+        <div id="error_explanation">
+            <h2><%%= pluralize(@<%= singular_table_name %>.errors.count, "error") %> prohibited this <%= singular_table_name %> from being saved:</h2>
+            <ul>
+                <%% @<%= singular_table_name %>.errors.full_messages.each do |msg| %>
+                    <li><%%= msg %></li>
+                <%% end %>
+            </ul>
+        </div>
+    <%% end %>
+
+<% attributes.each do |attribute| -%>
+    <div class="input-field">
+<% if attribute.password_digest? -%>
+        <%%= f.label :password %><br>
+        <%%= f.password_field :password %>
+    </div>
+    <div>
+        <%%= f.label :password_confirmation %><br>
+        <%%= f.password_field :password_confirmation %>
+<% else -%>
+  <% if attribute.reference? -%>
+        <%%= f.label :<%= attribute.column_name %> %><br>
+        <%%= f.<%= attribute.field_type %> :<%= attribute.column_name %> %>
+  <% elsif attribute.field_type.to_s == 'check_box' -%>
+        <div class="switch">
+            <%%= f.label :<%= attribute.column_name %>, class: 'active' %><br>
+            <label>
+                Inactive
+                <%%= f.<%= attribute.field_type %> :<%= attribute.column_name %> %>
+                <span class="lever"></span>
+                Active
+            </label>
+        </div>
+  <% else -%>
+        <%%= f.label :<%= attribute.name %> %><br>
+        <%%= f.<%= attribute.field_type %> :<%= attribute.name %> %>
+  <% end -%>
+<% end -%>
+    </div>
+<% end -%>
+    <div class="input-field actions">
+        <%%= f.submit nil, class: 'btn' %>
+        <%%= link_to('Back', url_for(action: :index), class: 'btn grey') %>
+    </div>
+<%% end %>

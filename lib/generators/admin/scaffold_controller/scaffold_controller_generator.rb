@@ -31,6 +31,8 @@ module Admin
 
       class_option :bootstrap,  required: false, default: nil, aliases: '-b',
                    desc: "Use bootstrap for templates"
+      class_option :materialize,  required: false, default: nil, aliases: '-m',
+                   desc: "Use materialize for templates"
 
       argument :attributes, type: :array, default: [], banner: "field:type field:type"
 
@@ -69,6 +71,8 @@ module Admin
           filename = filename_with_extensions(view)
           if bootstrap
             template_path = "views/#{handler}_bootstrap/#{filename}.erb"
+          elsif materialize
+            template_path = "views/#{handler}_materialize/#{filename}.erb"
           else
             template_path = "views/#{handler}/#{filename}.erb"
           end
@@ -91,6 +95,10 @@ module Admin
 
       def bootstrap
         options[:bootstrap]
+      end
+
+      def materialize
+        options[:materialize]
       end
 
       def prefix
